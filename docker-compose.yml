@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:11
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+      - ./pg_backup:/pg_backup
+      - ./backup_key.pem.pub:/secrets/backup_key.pem.pub
+      - ./backup_cron:/etc/cron.d/backup_cron
+      - ./backup_encrypt.sh:/backup_encrypt.sh
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "bash", "/mongo-healthcheck"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+  pg_admin:
+    image: dpage/pgadmin4
+    ports:
+      - 5050:80
+    links:
+      - postgres
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=example

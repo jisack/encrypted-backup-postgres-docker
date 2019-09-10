@@ -1,0 +1,1 @@
+* * * * * sh /backup_encrypt.sh my_database > /dev/stdout
