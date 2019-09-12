@@ -33,7 +33,7 @@ sh /backup_encrypt.sh ${my-database-name}
 Result will output 
 	* my-database-name_2019-09-10-03-06-58.sql.bz2.enc
 
-## Step 3 Decrypt a encrypted file
+## Step 4 Decrypt a encrypted file
 ```sh
 # Decrypt to a file using private key
 openssl smime -decrypt -in ${encrypt_file}.sql.bz2.ssl -binary \
